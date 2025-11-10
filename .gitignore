@@ -39,3 +39,8 @@ build/
 *.log
 
 # Dependencies
+
+# AI Tool Configurations
+.claude/
+.playwright-mcp/
+.serena/
