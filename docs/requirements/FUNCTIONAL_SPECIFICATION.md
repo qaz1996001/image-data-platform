@@ -15,16 +15,26 @@
 ### Phase 1 核心定位
 本文档聚焦于 **AI驱动的报告筛选工具**，不包含DICOM影像处理功能（Phase 2）。
 
-### 范围
-- ✅ 数据导入（Excel/CSV）
-- ✅ 报告搜索和浏览
-- ✅ **Ollama本地LLM集成**
-- ✅ **AI报告分析和标记**
-- ✅ 项目管理系统
-- ✅ 数据导出
-- ❌ DICOM影像处理（Phase 2）
-- ❌ 影像查看器（Phase 2）
-- ❌ 复杂系统集成（Phase 2）
+### 范围（實際實現狀態 2025-11-14）
+
+**✅ 已完成**：
+- ✅ 报告搜索和浏览（12個篩選條件，超越規格）
+- ✅ 项目管理系统（4角色權限，超越規格）
+- ✅ 数据导出（CSV/Excel）
+- ✅ JWT 認證系統
+
+**⚠️ 部分實現**：
+- ⚠️ 数据导入（Management commands 完成，API 未實現）
+
+**❌ 未實現**（前端已完成，後端缺失）：
+- ❌ **Ollama本地LLM集成**（0% 後端實現）
+- ❌ **AI报告分析和标记**（前端 100%，後端 0%）
+- ❌ Celery 異步任務隊列
+
+**❌ Phase 2**：
+- ❌ DICOM影像处理
+- ❌ 影像查看器
+- ❌ 复杂系统集成
 
 ---
 
@@ -93,23 +103,42 @@
 - ❌ 复杂状态管理
 
 #### 后端技术栈
+
+**⚠️ 重要說明：實際實現與原規格差異**
+
+**原規格**（本文檔）：
 ```json
 {
   "framework": "FastAPI 0.108+",
-  "language": "Python 3.11+",
   "orm": "SQLAlchemy 2.0+",
-  "migration": "Alembic 1.13+",
-  "validation": "Pydantic 2.5+",
-  "llm": "Ollama (qwen2.5:7b)",
-  "async": "asyncio + httpx"
+  "migration": "Alembic 1.13+"
 }
 ```
 
-**Phase 1 移除**:
-- ❌ Celery (task queue)
-- ❌ Redis (caching)
-- ❌ MinIO/S3 (object storage)
-- ❌ pydicom (DICOM processing)
+**實際實現**（已完成）：
+```json
+{
+  "framework": "Django 4.2 + Django Ninja",
+  "orm": "Django ORM",
+  "migration": "Django Migrations",
+  "language": "Python 3.11+",
+  "validation": "Pydantic 2.5+",
+  "auth": "django-ninja-jwt"
+}
+```
+
+**差異說明**：
+- 功能等效，架構模式一致（三層架構）
+- Django Ninja 提供 FastAPI 風格的 API 開發體驗
+- 決策記錄詳見：[`docs/old/migration/DJANGO_MIGRATION_LINUS_APPROVED.md`](../old/migration/DJANGO_MIGRATION_LINUS_APPROVED.md)
+
+**Phase 1 已移除**:
+- ❌ Celery (task queue) - 未實現
+- ❌ Redis (caching) - 未實現
+- ❌ MinIO/S3 (object storage) - 未實現
+- ❌ pydicom (DICOM processing) - Phase 2
+- ❌ Ollama integration - 規劃中，未實現
+- ❌ AI Analysis API - 規劃中，未實現
 
 ---
 

@@ -126,6 +126,10 @@
   - 按AI分类结果过滤
   - 按严重程度筛选
   - 按置信度范围筛选
+  
+**列表工作区一致性（List Workbench）**：
+- Phase 1 中，报告检索（Reports）、检查搜索（Study Search）与项目列表（Projects）三大页面的 UI 已统一采用 List Workbench 佈局：统一的 Header、条件卡片（FilterCard）、结果卡片（ResultsCard）。
+- 所有列表页的【欄位設定】均使用右侧 Drawer 呈现，批次操作入口集中在结果卡片工具列与 Selected Drawer 内，减少不同页面间的学习成本。
 
 **用户体验**：
 - 实时搜索（输入即搜）
