@@ -1,41 +1,48 @@
-# System files
-nul
-*~
-~$*
-.DS_Store
-Thumbs.db
+# IDE and Editor
+.idea/
+.cursor/
+.vscode/
+*.swp
+*.swo
+
+# Claude/AI tools
+.claude/
+.serena/
 
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
-.venv/
+.Python
 venv/
 .env
-
-# Node
-node_modules/
-.pnpm-store/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-
-# Build outputs
+*.egg-info/
 dist/
 build/
 
-# Data files (keep small config)
-*.xlsx
-*.csv
-*.duckdb
-
-# Jupyter
-.ipynb_checkpoints/
-
-# Logs
+# Node
+node_modules/
+.npm/
 *.log
 
-# Dependencies
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+.playwright-mcp/
+test-results/
+
+# OS
+.DS_Store
+Thumbs.db
+nul
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Large data files
+*.db
+resource/*.db

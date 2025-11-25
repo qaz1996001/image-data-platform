@@ -653,10 +653,10 @@ Phase 2将在此基础上添加：
 
 ### 9.2 参考文档
 - [项目概述](../01_PROJECT_OVERVIEW.md)
-- [技术架构设计](../architecture/02_TECHNICAL_ARCHITECTURE.md)
-- [数据库设计](../database/03_DATABASE_DESIGN.md)
-- [API接口规范](../api/04_API_SPECIFICATION.md)
-- [AI集成指南](../guides/AI_INTEGRATION_GUIDE.md)（待创建）
+- [技术架构设计](../old/architecture/02_TECHNICAL_ARCHITECTURE.md)
+- [数据库设计](../old/database/03_DATABASE_DESIGN.md)
+- [API接口规范](../old/api/04_API_SPECIFICATION.md)
+- [AI集成指南](../old/guides/AI_INTEGRATION_GUIDE.md)（历史版本）
 
 ---
 

@@ -14,6 +14,7 @@
 
 ### 📋 Implementation Guides
 - **[DJANGO_MIGRATION_TASKS.md](DJANGO_MIGRATION_TASKS.md)** - Detailed task breakdown (10 phases)
+- **[I18N_GUIDE.md](guides/I18N_GUIDE.md)** - Multilingual documentation guidelines
 - **[EXCEL_INTEGRATION_GUIDE.md](EXCEL_INTEGRATION_GUIDE.md)** - Excel data setup and usage
 - **[EXCEL_INTEGRATION_SUMMARY.md](EXCEL_INTEGRATION_SUMMARY.md)** - Integration implementation details
 
