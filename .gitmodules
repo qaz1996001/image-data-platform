@@ -1,0 +1,5 @@
+[submodule "backend_django"]
+	path = backend_django
+	url = https://github.com/ggggggg13289AI/data-platform-backend.git
+[submodule "frontend"]
+	path = frontend
