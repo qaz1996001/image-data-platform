@@ -1,6 +1,8 @@
 # UR‑003 / UR‑004 API Contract（Study Search ＆ Report Detail）
 
-本文件將 `backend_django/studies/api.py`、`backend_django/studies/report_api.py` 與 `backend_django/docs/010_BACKEND_INTEGRATION_CHECKLIST.md` 中的實作/規格收斂為一份可引用的契約，供前後端在處理 **UR‑003（檢查記錄搜尋）** 與 **UR‑004（報告詳情與 AI 標記）** 時使用。
+本文件將 `backend_django/study/api.py`、`backend_django/report/api.py` 與 `backend_django/docs/010_BACKEND_INTEGRATION_CHECKLIST.md` 中的實作/規格收斂為一份可引用的契約，供前後端在處理 **UR‑003（檢查記錄搜尋）** 與 **UR‑004（報告詳情與 AI 標記）** 時使用。
+
+> **注意**: 自 v2.0 起，後端已重構為模組化架構（`study`、`report`、`project`、`common`），但 API 路徑保持不變，確保向後兼容。詳見 [MODULE_REFACTORING.md](../MODULE_REFACTORING.md)。
 
 ---
 
@@ -10,7 +12,7 @@
 | --- | --- |
 | 認證 | 所有端點僅接受 `Authorization: Bearer <JWT>`，401 時回傳 `{"detail": "Unauthorized"}`。 |
 | Content-Type | `application/json; charset=utf-8`。匯出端點另有檔案回應。 |
-| Datetime | 一律為 `YYYY-MM-DDTHH:MM:SS` ISO 8601（`backend_django/studies/config.APIConfig`）。 |
+| Datetime | 一律為 `YYYY-MM-DDTHH:MM:SS` ISO 8601（`backend_django/common/config.APIConfig`）。 |
 | 失敗回應 | 400 參數錯誤、401 未授權、403 無權操作、404 資源不存在、429 Rate Limit、5xx 伺服器錯誤。 |
 | 錯誤格式 | 依 Django Ninja 預設：`{"detail": "<message>"}`；欄位驗證錯誤為 `{"detail": [{"loc": [...], "msg": "..."}]}`。 |
 
@@ -22,7 +24,7 @@
 
 | 名稱 | 型別 | 必填 | 說明 |
 | --- | --- | --- | --- |
-| `q` | string (<= 200) | 否 | 關鍵字，搜尋 9 個欄位（`StudyService.TEXT_SEARCH_FIELD_COUNT`）。 |
+| `q` | string (<= 200) | 否 | 關鍵字，搜尋 9 個欄位（`study.services.StudyService.TEXT_SEARCH_FIELD_COUNT`）。 |
 | `exam_status` | string | 否 | pending / completed / cancelled。 |
 | `exam_source` | string | 否 | 資料來源（PACS、HIS…）。 |
 | `exam_equipment[]` | array\<string> | 否 | 支援 `exam_equipment=value` 與 `exam_equipment[]=value` 兩種格式。 |
@@ -48,7 +50,7 @@ Top-level 結構（Django Ninja `@paginate` 預設）：
 | `count` | integer | 總筆數。 |
 | `filters` | `FilterOptions` | 用於下拉清單的唯一值。 |
 
-`StudyListItem`（來源：`backend_django/studies/schemas.py`）：
+`StudyListItem`（來源：`backend_django/study/schemas.py`）：
 
 | 欄位 | 型別 | 必填 | 說明 |
 | --- | --- | --- | --- |

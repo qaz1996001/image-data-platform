@@ -126,10 +126,6 @@
   - 按AI分类结果过滤
   - 按严重程度筛选
   - 按置信度范围筛选
-  
-**列表工作区一致性（List Workbench）**：
-- Phase 1 中，报告检索（Reports）、检查搜索（Study Search）与项目列表（Projects）三大页面的 UI 已统一采用 List Workbench 佈局：统一的 Header、条件卡片（FilterCard）、结果卡片（ResultsCard）。
-- 所有列表页的【欄位設定】均使用右侧 Drawer 呈现，批次操作入口集中在结果卡片工具列与 Selected Drawer 内，减少不同页面间的学习成本。
 
 **用户体验**：
 - 实时搜索（输入即搜）
@@ -198,23 +194,14 @@ HTTP客户端: Axios
 
 ### 后端
 ```yaml
-Web框架: Django 5.1+ with Django Ninja (Python 3.10+)
-ORM: Django ORM
+Web框架: FastAPI 0.104+ (Python 3.10+)
+ORM: SQLAlchemy 2.0+
 数据验证: Pydantic 2.5+
-迁移工具: Django Migrations
+迁移工具: Alembic
 异步HTTP: httpx (调用Ollama)
 密码加密: bcrypt
-身份认证: JWT (djangorestframework-simplejwt)
-模組架構: 模組化設計（study/project/report/common）
+身份认证: JWT (python-jose)
 ```
-
-**模組結構**：
-- `study/` - 檢查記錄（Study）管理
-- `project/` - 專案（Project）和成員管理
-- `report/` - 報告（Report）和 AI 標註
-- `common/` - 跨模組共用功能（權限、認證、分頁等）
-
-詳細的模組重構說明請參閱 [MODULE_REFACTORING.md](./MODULE_REFACTORING.md)。
 
 ### 数据库
 ```yaml
@@ -443,14 +430,13 @@ services:
 
 ## 后续文档
 
-1. [模組重構文檔](./MODULE_REFACTORING.md) - 後端模組化架構說明（v2.0 新增）
-2. [技术架构设计](./architecture/02_TECHNICAL_ARCHITECTURE.md) - 系统架构和技术选型
-3. [数据库设计](./database/03_DATABASE_DESIGN.md) - 5张核心表设计（已更新v2.0.0）
-4. [API接口规范](./api/04_API_SPECIFICATION.md) - RESTful API详细文档
-5. [用户需求文档](./requirements/USER_REQUIREMENTS.md) - 9条Phase 1需求（已更新v2.0.0）
-6. [功能规格说明](./requirements/FUNCTIONAL_SPECIFICATION.md) - 技术实现详细规格（已更新v2.0.0）
-7. [开发工作流](./workflow/05_DEVELOPMENT_WORKFLOW.md) - 8周开发计划
-8. [AI集成指南](./guides/AI_INTEGRATION_GUIDE.md) - Ollama部署和调优（待创建）
+1. [技术架构设计](./architecture/02_TECHNICAL_ARCHITECTURE.md) - 系统架构和技术选型
+2. [数据库设计](./database/03_DATABASE_DESIGN.md) - 5张核心表设计（已更新v2.0.0）
+3. [API接口规范](./api/04_API_SPECIFICATION.md) - RESTful API详细文档
+4. [用户需求文档](./requirements/USER_REQUIREMENTS.md) - 9条Phase 1需求（已更新v2.0.0）
+5. [功能规格说明](./requirements/FUNCTIONAL_SPECIFICATION.md) - 技术实现详细规格（已更新v2.0.0）
+6. [开发工作流](./workflow/05_DEVELOPMENT_WORKFLOW.md) - 8周开发计划
+7. [AI集成指南](./guides/AI_INTEGRATION_GUIDE.md) - Ollama部署和调优（待创建）
 
 ---
 

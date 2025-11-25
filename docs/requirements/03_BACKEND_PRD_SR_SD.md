@@ -5,14 +5,17 @@
 **版本**: v2.0.0-Phase1  
 **狀態**: Draft  
 **建立日期**: 2025-11-24  
-**最後更新**: 2025-11-24  
+**最後更新**: 2025-11-25  
 **作者 / 審核人**: （待填）
 
 > 本文件聚焦於 **後端應用與資料庫**：
-> - API 層（FastAPI / Django Ninja 樣式 API）、
+> - API 層（Django Ninja 樣式 API）、
+> - 模組化架構（study / project / report / common）、
 > - 商業邏輯與服務層、
 > - PostgreSQL 資料庫（reports / ai_annotations / projects / project_reports / users）、
 > - 與本地 LLM（Ollama）整合的 AI 分析服務。
+>
+> **重要**: 自 v2.0 起，後端採用模組化架構，詳見 [MODULE_REFACTORING.md](../MODULE_REFACTORING.md)。
 >
 > 內容主要整理自：
 > - [`docs/old/requirements/USER_REQUIREMENTS.md`](../old/requirements/USER_REQUIREMENTS.md)
@@ -103,8 +106,8 @@
 
 | BE-SR ID | 摘要 | 對應 SYS-SR | 相關資料表 / 模組 |
 |----------|------|-------------|------------------|
-| BE-SR-001 | 後端必須提供 `POST /api/v1/auth/login`，接受表單 `username` 與 `password`，驗證成功後回傳 JWT 與使用者資訊。 | SYS-SR-001 | `users`、auth router / service |
-| BE-SR-002 | 後端必須提供 `GET /api/v1/auth/me`，根據 Authorization header 中的 JWT 還原使用者資訊。 | SYS-SR-001 | `users`、auth router |
+| BE-SR-001 | 後端必須提供 `POST /api/v1/auth/login`，接受表單 `username` 與 `password`，驗證成功後回傳 JWT 與使用者資訊。 | SYS-SR-001 | `users`、`common/auth_api.py` |
+| BE-SR-002 | 後端必須提供 `GET /api/v1/auth/me`，根據 Authorization header 中的 JWT 還原使用者資訊。 | SYS-SR-001 | `users`、`common/auth_api.py` |
 | BE-SR-010 | 後端必須提供 `POST /api/v1/import/preview`，可解析 CSV / Excel，回傳欄位名稱清單、前 100 行資料與建議映射。 | SYS-SR-002 | `reports`（尚未寫入）|
 | BE-SR-011 | 後端必須提供 `POST /api/v1/import/execute`，依給定欄位映射將檔案內容批次寫入 `reports`，並回傳匯入/略過/錯誤筆數。 | SYS-SR-002 | `reports` |
 | BE-SR-020 | 後端必須提供 `GET /api/v1/reports`（或等效 `/reports/search`），支援關鍵字、多條件篩選與分頁；使用全文索引優化效能。 | SYS-SR-003 | `reports`、全文索引 |
@@ -113,7 +116,7 @@
 | BE-SR-031 | 後端必須提供 `DELETE /api/v1/ai/annotations/{id}`，將指定標記刪除。 | SYS-SR-007 | `ai_annotations` |
 | BE-SR-040 | 後端必須提供 `POST /api/v1/ai/analyze`，依 `report_id` 讀取報告內容，呼叫 Ollama 進行分析，將結果寫入 `ai_annotations` 並回傳。 | SYS-SR-005 | `reports`, `ai_annotations`, Ollama Client |
 | BE-SR-041 | 後端必須提供 `POST /api/v1/ai/batch-analyze`，限制單批報告數（如 ≤ 50），並以背景任務方式逐筆分析，控制最大併發數（如 3）。 | SYS-SR-006 | 同上 |
-| BE-SR-050 | 後端必須提供 `GET /api/v1/projects`、`POST /api/v1/projects`、`PUT /api/v1/projects/{id}`、`DELETE /api/v1/projects/{id}`，管理專案基本資訊與狀態。 | SYS-SR-008 | `projects` |
+| BE-SR-050 | 後端必須提供 `GET /api/v1/projects`、`POST /api/v1/projects`、`PUT /api/v1/projects/{id}`、`DELETE /api/v1/projects/{id}`，管理專案基本資訊與狀態。 | SYS-SR-008 | `projects`、`project/api.py`、`project/service.py` |
 | BE-SR-051 | 後端必須提供 `POST /api/v1/projects/{id}/reports` 與 `DELETE /api/v1/projects/{id}/reports/{report_id}`，維護 `project_reports` 關聯，避免重複條目。 | SYS-SR-008 | `project_reports` |
 | BE-SR-060 | 後端必須提供 `POST /api/v1/export/project`，接受 `project_id`、輸出格式、欄位選擇等參數，回傳對應檔案串流。 | SYS-SR-009 | `projects`, `project_reports`, `reports`, `ai_annotations` |
 | BE-SR-061 | 後端必須提供 `POST /api/v1/export/search`，接受搜尋參數 JSON，執行查詢後回傳匯出檔案。 | SYS-SR-009 | 同上 |
@@ -141,11 +144,37 @@
 
 ### 4.1 模組與分層
 
-- 建議邏輯分層：
-  - **API Layer**：FastAPI / Django Ninja router，僅處理請求解析與回應格式。
-  - **Service Layer**：封裝業務邏輯，對應 StudyService、AIService、ProjectService 等。
-  - **Repository / ORM Layer**：透過 ORM（SQLAlchemy / Django ORM）操作資料表。
+- **模組化架構**（v2.0 採用）：
+  - `study/` - 檢查記錄（Study）相關功能
+    - `study/models.py` - Study 模型
+    - `study/api.py` - Study API 端點
+    - `study/services.py` - Study 業務邏輯
+    - `study/schemas.py` - Pydantic schemas
+  - `project/` - 專案管理相關功能
+    - `project/models.py` - Project, ProjectMember 模型
+    - `project/api.py` - Project API 端點
+    - `project/service.py` - Project 業務邏輯
+    - `project/schemas.py` - Pydantic schemas
+  - `report/` - 報告和 AI 標註相關功能
+    - `report/models.py` - Report, ReportVersion, AIAnnotation 等模型
+    - `report/api.py` - Report API 端點
+    - `report/service.py` - Report 業務邏輯
+    - `report/schemas.py` - Pydantic schemas
+  - `common/` - 跨模組共用功能
+    - `common/models.py` - 關聯模型（如 StudyProjectAssignment）
+    - `common/permissions.py` - 權限管理
+    - `common/auth_api.py` - 認證 API
+    - `common/pagination.py` - 分頁輔助
+    - `common/exceptions.py` - 自定義異常
+    - `common/config.py` - 配置
+
+- **邏輯分層**：
+  - **API Layer**：Django Ninja router，僅處理請求解析與回應格式。
+  - **Service Layer**：封裝業務邏輯，對應 StudyService、ReportService、ProjectService 等。
+  - **Repository / ORM Layer**：透過 Django ORM 操作資料表。
   - **Integration Layer**：Ollama Client、外部服務整合。
+
+詳細模組結構說明請參閱 [MODULE_REFACTORING.md](../MODULE_REFACTORING.md)。
 
 ### 4.2 資料表與 BE-SR 對應
 

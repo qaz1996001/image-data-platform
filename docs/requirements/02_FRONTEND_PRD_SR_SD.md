@@ -149,22 +149,215 @@
 1. **Header**
    - `ListWorkbench.Header` 必填 `title`、`description`，並於 `meta` 顯示主要統計（例如 `Badge count={total}`）。
    - Primary action（右側最後一顆按鈕）僅允許 1 個，Secondary actions 以 `Space` 排列在其左側；若尚未定義行為，需保留 disabled placeholder 以維持結構。
-   - 標頭 padding、字級、背景顏色需使用 `list-workbench.less` 提供的 token（`--lw-header-padding` 等）。
+   - 標頭 padding、字級、背景顏色需使用 `list-workbench.css` 提供的 token（`--lw-header-padding` 等）。
 2. **FilterCard**
    - 以 `variant="outlined"` 的 Ant Card 呈現；title 預設為「條件設定」。
    - `extra` 一律為「清除篩選」按鈕（或 `ClearButton`），點擊後必須重置 ListView query 與本地 filter store。
+   - 支援 `collapsible` 屬性，當設為 true 時於底部顯示切換按鈕以展開/隱藏進階篩選區塊。
    - 行動裝置 (<768px) 需顯示「Show/Hide Filters」切換按鈕，進階篩選區塊應可收合。
 3. **ResultsCard**
    - `summary` 需輸出「共 N 筆 xxx」，當有 active filters 時補上 `・ M 個篩選條件`。
    - `statusBar` 只能顯示規範內的 badge：`loading`（info）、`error`、`empty`（warning）、`selection`（success）…；多個狀態可同時存在，順序為 loading → error → empty/hint → selection/filters。
    - `actions` 列左起為：齒輪（欄位設定）→ 全選 / 取消 → 頁面專屬動作；若暫無 selection，即顯示 disabled 或 tooltip。
+   - 支援 `actionsVariant` 屬性，當設為 'drawer' 時會以更緊湊的樣式顯示動作按鈕。
    - `footer` 需放置 `ListViewPagination`，桌機版右對齊、行動版置中。
-4. **狀態與響應式**
+4. **StatusBar**
+   - 必須使用標準的 `StatusBarItem` 型別，支援 `type: 'info' | 'success' | 'warning' | 'error'`。
+   - 每個狀態項目可包含 `icon` 與 `label`，並使用對應的顏色編碼。
+   - 支援 `dense` 模式以減少內邊距。
+5. **SelectionDrawer**
+   - 提供泛型 `<T>` 支援不同資料類型的選取清單。
+   - 必須包含以下 props：`title`, `items`, `renderItem`, `primaryActions`, `secondaryActions`, `actionGroup`, `emptyState`。
+   - Drawer header 套用 `list-workbench-drawer-head` 類別，顯示選取數量 badge。
+   - `SelectionDrawerTrigger` 使用 `FolderOpenOutlined` icon，預設標籤為「已選清單」，並顯示選取數量的 pill badge。
+   - 支援 `actionGroup` slot 用於批次操作按鈕，會自動換行並保持一致間距。
+6. **ColumnSettingsDrawer**
+   - 提供統一的欄位設定介面，支援拖曳排序與顯示/隱藏切換。
+   - 鎖定的欄位（如 'action'）不可拖曳且切換開關為 disabled 狀態。
+   - 提供「重置」按鈕以恢復預設欄位配置。
+7. **狀態與響應式**
    - 無結果時需同時透過 StatusBar（文字）與內容區（Empty component 或提示）回饋。
    - Mobile layout (`max-width: 768px`) 將 FilterCard / ResultsCard 工具列堆疊，actions 自動換行。
-5. **測試與追蹤**
+8. **測試與追蹤**
    - 每個頁面必須在 `frontend/e2e/*.spec.ts` 中新增對應的 List Workbench 測試，驗證 Header/Filter/Results/工具列/分頁是否渲染。
    - 規範更新時需同步調整本節、`frontend/docs/features/list-workbench-guide.md` 以及對應測試，以維持文件、程式與自動化驗證的一致性。
+
+### 4.4 List Workbench 組件技術規範
+
+> 本節詳細描述 `@components/ListWorkbench` 的實作要求，對應 OpenSpec 規格 `list-workbench-components`。
+
+#### 4.4.1 組件匯出清單
+
+`@components/ListWorkbench/index.ts` 必須匯出以下組件與型別：
+
+**組件：**
+- `ListWorkbench`（複合組件，包含 `.Header` 和 `.Body` 子組件）
+- `FilterCard`
+- `ResultsCard`
+- `StatusBar`
+- `SelectionDrawer`
+- `SelectionDrawerTrigger`
+- `ColumnSettingsDrawer`
+
+**型別定義：**
+- `StatusBarItem`
+- `StatusBarItemType`
+- `SelectionDrawerProps<T>`
+- `SelectionDrawerTriggerProps`
+- `ColumnSettingsDrawerProps`
+
+#### 4.4.2 ListWorkbench 組件規範
+
+**ListWorkbench.Header Props：**
+- `title: string`（必填）
+- `description?: string`
+- `primaryAction?: ReactNode`（未提供時渲染 disabled placeholder）
+- `secondaryActions?: ReactNode`
+- `meta?: ReactNode`
+- `className?: string`
+
+**ListWorkbench.Body Props：**
+- `children: ReactNode`（必填）
+- `className?: string`
+- `gap?: number`（預設 16px）
+
+#### 4.4.3 FilterCard 規範
+
+**Props：**
+- `title?: ReactNode`（預設「條件設定」）
+- `extra?: ReactNode`（預設「清除篩選」按鈕）
+- `collapsible?: boolean`
+- `defaultExpanded?: boolean`（預設 true）
+- `onClear?: () => void`
+- `children: ReactNode`（基本篩選內容）
+- `advancedContent?: ReactNode`（進階篩選內容）
+- `className?: string`
+
+**行為要求：**
+- 必須使用 `variant="outlined"` 的 Ant Design Card
+- `collapsible` 為 true 時於底部顯示「顯示進階條件」/「隱藏進階條件」切換按鈕
+- 點擊 `extra` 的清除按鈕會觸發 `onClear` callback
+
+#### 4.4.4 ResultsCard 規範
+
+**Props：**
+- `title: ReactNode`（必填）
+- `summary?: ReactNode`（顯示於 Card extra）
+- `statusBar?: ReactNode`
+- `actions?: ReactNode`
+- `footer?: ReactNode`
+- `children: ReactNode`（必填，通常為表格）
+- `className?: string`
+- `actionsVariant?: 'default' | 'drawer'`（預設 'default'）
+
+**Layout 要求：**
+- `statusBar` 與 `actions` 並排於 Card body 頂部
+- `actions` 右對齊於同一列
+- `children` 為主要內容區域
+- `footer` 置於 Card body 下緣
+
+#### 4.4.5 StatusBar 規範
+
+**StatusBarItem 型別：**
+```typescript
+type StatusBarItemType = 'info' | 'success' | 'warning' | 'error'
+
+interface StatusBarItem {
+  key?: React.Key
+  type?: StatusBarItemType
+  label: ReactNode
+  icon?: ReactNode
+}
+```
+
+**Props：**
+- `items: StatusBarItem[]`（必填）
+- `dense?: boolean`
+- `className?: string`
+
+**樣式對應：**
+- `info`: 藍色背景 (#e6f4ff)
+- `success`: 綠色背景 (#f6ffed)
+- `warning`: 黃色背景 (#fffbe6)
+- `error`: 紅色背景 (#fff2f0)
+
+#### 4.4.6 SelectionDrawer 規範
+
+**Props：**
+- `open: boolean`（必填）
+- `items: T[]`（必填，泛型陣列）
+- `renderItem: (item: T, index: number) => ReactNode`（必填）
+- `getItemKey?: (item: T, index: number) => React.Key`
+- `onClose: DrawerProps['onClose']`（必填）
+- `title?: string`（預設「已選清單」）
+- `count?: number`（覆寫 badge 顯示數量）
+- `primaryActions?: ReactNode`
+- `secondaryActions?: ReactNode`
+- `actionGroup?: ReactNode`
+- `emptyState?: ReactNode`
+- `drawerProps?: Omit<DrawerProps, 'open' | 'onClose' | 'title' | 'extra'>`
+
+**SelectionDrawerTrigger Props：**
+- `count: number`（必填）
+- `onClick: () => void`（必填）
+- `label?: string`（預設「已選清單」）
+- `disabled?: boolean`
+- `buttonProps?: ButtonProps`
+
+**樣式類別：**
+- `.list-workbench-drawer-head`：Drawer 標題區域
+- `.list-workbench-drawer-extra`：額外操作按鈕區域
+- `.list-workbench-drawer-group`：批次操作群組
+- `.list-workbench-drawer-list`：項目列表容器
+- `.list-workbench-drawer-item`：單一項目容器
+- `.list-workbench-selection-trigger`：觸發按鈕
+- `.list-workbench-selection-pill`：數量 badge
+
+#### 4.4.7 CSS Token 規範
+
+`list-workbench.css` 必須定義以下 CSS 變數：
+
+```css
+:root {
+  --lw-surface: #ffffff;
+  --lw-border: #f0f0f0;
+  --lw-header-padding: 12px 20px;
+  --lw-card-gap: 16px;
+  --lw-status-bg: #f5f5f5;
+  --lw-status-border: #d9d9d9;
+}
+```
+
+並提供深色模式支援（`@media (prefers-color-scheme: dark)`）。
+
+#### 4.4.8 響應式設計
+
+在 `max-width: 768px` 時：
+- Header title 字級從 24px 縮小至 20px
+- ResultsCard header 改為垂直堆疊
+- Actions 區域寬度 100%，左對齊
+
+#### 4.4.9 實作檔案結構
+
+```
+frontend/src/components/ListWorkbench/
+├── index.ts                    # 統一匯出點
+├── ListWorkbench.tsx           # 主組件、FilterCard、ResultsCard、StatusBar
+├── SelectionDrawer.tsx         # 選取抽屜相關組件
+├── ColumnSettingsDrawer.tsx    # 欄位設定抽屜
+└── list-workbench.css          # 樣式與 token
+```
+
+#### 4.4.10 使用範例頁面
+
+已完成導入的頁面：
+- `/pages/StudySearch/index.tsx`
+- `/pages/ReportSearch/index.tsx`
+- `/pages/Projects/index.tsx`
+- `/pages/Projects/Detail/ProjectStudyList.tsx`
+- `/pages/Projects/Detail/ProjectReportList.tsx`
+
+所有新增的列表頁面必須遵循相同的組件使用模式。
 
 ---
 
@@ -207,6 +400,20 @@
 - 所有 FE-SR 中提到的 API 皆應封裝在 `services/*` 或等價層中，而不是散落在 component：
   - 例如：`authService`, `reportService`, `aiService`, `projectService`, `exportService`。
   - 服務層負責拼接 URL、處理查詢參數與回傳型別（TS 型別定義）。
+
+### 5.5 Study Search 列表欄位定義
+
+- **列表欄位配置**（參考 `frontend/src/pages/StudySearch/index.tsx`）：
+  - `exam_id`: Width 100px (Fixed)
+  - `medical_record_no`: Width 80px
+  - `patient_name`: Width 60px
+  - `check_in_datetime`: Width 180px
+  - `exam_description`: Width 200px
+  - `certified_physician`: Width 60px
+  - `exam_source`: Width 60px
+  - `exam_status`: Width 60px
+  - `report`: Width 180px (顯示 Status Badge)
+  - `action`: Width 100px (Fixed Right)
 
 ---
 
