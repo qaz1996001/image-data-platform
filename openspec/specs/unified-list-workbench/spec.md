@@ -1,7 +1,14 @@
 # unified-list-workbench Specification
 
 ## Purpose
-TBD - created by archiving change standardize-phase1-list-ux. Update Purpose after archive.
+
+為 Image Data Platform 的三個主要列表頁面（Reports、Study Search、Projects）建立統一的佈局與互動模式，透過可重用的 `ListWorkbench` 組件家族，確保：
+1. **視覺一致性** - 統一的 Header、FilterCard、ResultsCard 樣式與間距
+2. **使用者體驗一致** - 統一的篩選、排序、選取、匯出、欄位設定操作流程
+3. **開發效率** - 減少每頁重複實作相同 UI 邏輯，便於未來新列表頁面快速上線
+4. **無障礙存取與響應式設計** - 支援桌機與行動版自動調整、深色模式
+
+本規格詳述了 ListWorkbench 組件的結構、slot、CSS 變數、與三頁面的適配方案。
 ## Requirements
 ### Requirement: List Workbench Header
 所有列表頁 MUST 共享同一個 Header 組件，以維持標題、描述、行動按鈕與 meta 資訊的一致樣式與位置。

@@ -10,11 +10,11 @@ extensions: {}
 
 ## Summary
 
-推動 Phase 1 關鍵工作流（UR‑003 報告/檢查搜尋、UR‑004 報告詳情、UR‑007 專案管理、UR‑008 匯出）的「端到端交付」，將目前 **前端已完成的 UI/UX**（如 `frontend/docs/STUDY_SEARCH_COMPLETION_REPORT.md`、`frontend/docs/features/project-list-view-guide.md`）與 **後端已具備的 Django API 能力**（見 `backend_django/docs/implementation/實作狀態_當前進度_2025-01-13.md`）正式銜接，同時補足匯出與詳情視圖仍缺的契約、權限與進度回報機制。
+推動 Phase 1 關鍵工作流（UR‑003 報告/檢查搜尋、UR‑004 報告詳情、UR‑007 專案管理、UR‑008 匯出）的「端到端交付」，將目前 **前端已完成的 UI/UX**（如 `frontend/docs/STUDY_SEARCH_COMPLETION_REPORT.md`、`frontend/docs/features/project-list-view-guide.md`）與 **後端已具備的 Django API 能力**（見 `backend_django/docs/implementation/實作狀態_當前進度_2025-01-13.md`，v2.0 模組化架構：study/project/report/common）正式銜接，同時補足匯出與詳情視圖仍缺的契約、權限與進度回報機制。
 
 ## Motivation
 
-- Study Search 前端已完成、並具備 mock fallback（`frontend/docs/STUDY_SEARCH_COMPLETION_REPORT.md`），但仍缺少對 `backend_django/docs/010_BACKEND_INTEGRATION_CHECKLIST.md` 所列四個 `/studies/*` 端點的正式整合與測試。
+- Study Search 前端已完成、並具備 mock fallback（`frontend/docs/STUDY_SEARCH_COMPLETION_REPORT.md`），但仍缺少對 `backend_django/docs/010_BACKEND_INTEGRATION_CHECKLIST.md` 所列四個 `/studies/*` 端點（實作於 `study/api.py`）的正式整合與測試。
 - 報告詳情（UR‑004）雖在 `docs/requirements/USER_REQUIREMENTS.md` 中定義需要 AI 標記與專案摘要，但現有 UI 尚未強制使用 `/reports/{id}` + `/ai/annotations/{report_id}` 的資料；同時 Django 端已於 `backend_django/docs/implementation/...` 宣告 95% 完成，需要收斂契約。
 - 專案管理（UR‑007）在前端以 ListView Provider 完成（`frontend/docs/features/project-list-view-guide.md`），後端亦已提供完整 CRUD + RBAC（`backend_django/docs/implementation/...` §2.4），但尚未描述如何落實使用者角色、批次指派與選取匯入等整合情境。
 - 匯出功能（UR‑008）前端仍列為 Phase 4（`frontend/README.md`）且僅支援「全搜尋匯出」 (`frontend/docs/features/study-table-management-guide.md` FAQ)，後端則已有 90% 功能但缺乏非同步與進度推播（`backend_django/docs/implementation/...` §2.5）。需要共同定義匯出任務生命週期與 UI 回饋。

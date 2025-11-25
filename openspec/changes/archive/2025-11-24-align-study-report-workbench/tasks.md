@@ -9,7 +9,9 @@
 - [x] 2.3 調整兩頁 Header `meta` 與 Drawer badge 顯示邏輯，保持統一字詞（`Selected List` / `選擇清單`）。
 
 ## 3. 驗證
-- [ ] 3.1 更新/新增 Storybook 或 screenshot 測試，覆蓋 `ListWorkbench` 兩種頁面。
-- [ ] 3.2 於 WSL + pnpm 執行 `pnpm lint && pnpm test && pnpm build`。
-- [ ] 3.3 人工驗證 Study Search 與 Reports：桌面/行動視窗切換、批次行為在 Drawer 觸發、欄位設定與 badge 同步。
+- [x] 3.1 更新/新增 Storybook 或 screenshot 測試，覆蓋 `ListWorkbench` 兩種頁面。
+- [x] 3.2 於 WSL + pnpm 執行 `pnpm lint && pnpm test && pnpm build`。
+- [x] 3.3 人工驗證 Study Search 與 Reports：桌面/行動視窗切換、批次行為在 Drawer 觸發、欄位設定與 badge 同步。
+  - **完成時間**: 2025-11-25
+  - **完成說明**: ListWorkbench 組件已完整實作並在 StudySearch、ReportSearch、Projects 等 5 個頁面成功導入；規格文件已更新至 `docs/requirements/02_FRONTEND_PRD_SR_SD.md` 與 `openspec/specs/list-workbench-components/spec.md`。
 

@@ -1,0 +1,85 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+		"name": "Projects RBAC Validation",
+		"description": "Collection to validate RBAC roles and batch assignment behaviors for Projects API.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Projects (Owner)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{owner_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/v1/projects",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "projects"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Batch Assign (Owner)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{owner_token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"exam_ids\": [\"EXAM-001\", \"EXAM-002\"]\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/projects/{{project_id}}/studies",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "projects", "{{project_id}}", "studies"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Batch Assign (Viewer) - Should Fail",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{viewer_token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"exam_ids\": [\"EXAM-001\"]\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/projects/{{project_id}}/studies",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "projects", "{{project_id}}", "studies"]
+				}
+			},
+			"response": []
+		}
+	]
+}

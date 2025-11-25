@@ -34,8 +34,10 @@ extensions: {}
      - Align Clear filters 行為至 `FilterCard` extra，並將 `ListViewPagination` 移入 ResultsCard footer，作為 Reports/Study 後續統一的佈局範本。  
      - **驗證**：提供 Projects 頁面 before/after（桌機＋行動）截圖，由你確認佈局與使用空間後，再標記此任務完成。
 
-6. - [ ] **更新規格與測試文檔**  
+6. - [x] **更新規格與測試文檔**  
      - 在 `docs/requirements/02_FRONTEND_PRD_SR_SD.md` 與 `frontend/docs/features/*` 新增 List Workbench 章節與 UI 準則，明確描述三頁共用佈局（Header / FilterCard / ResultsCard / 工具列 / 分頁）。  
      - 新增或更新 Playwright/E2E 腳本：`reports-list-workbench.spec.ts`, `study-search-workbench.spec.ts`, `projects-workbench.spec.ts`，以 Projects 為基準檢查三頁行為與版面一致。  
      - **驗證**：`pnpm test`（含新腳本）+ `pnpm build` 綠燈；附錄截圖或 review checklist。
+     - **完成時間**: 2025-11-25
+     - **完成說明**: 已在 `02_FRONTEND_PRD_SR_SD.md` 補充完整的 List Workbench UI 規範（§4.3, §4.4），包含組件匯出清單、Props 規範、CSS Token、響應式設計等；已更新 `openspec/specs/list-workbench-components/spec.md` 補充 Purpose 與 ColumnSettingsDrawer 規格。
 

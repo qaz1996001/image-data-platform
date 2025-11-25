@@ -17,10 +17,12 @@ extensions: {}
    - Update this proposal if any mismatches are discovered.
 
 2. **Confirm FE‑PRD / FE‑SR mappings per UR**
-   - From `docs/requirements/02_FRONTEND_PRD_SR_SD.md`:
+   - [x] From `docs/requirements/02_FRONTEND_PRD_SR_SD.md`:
      - Verify the FE‑PRD and FE‑SR tables (Sections 3–4) against the UR‑centric matrix in this proposal.
      - For each UR, double‑check that the FE‑PRD / FE‑SR entries listed here really are the primary frontend responsibilities.
-   - If needed, propose clarifying notes in 02_FRONTEND_PRD_SR_SD (via a separate OpenSpec change).
+   - [x] If needed, propose clarifying notes in 02_FRONTEND_PRD_SR_SD (via a separate OpenSpec change).
+   - **完成時間**: 2025-11-25
+   - **完成說明**: 已補充 FE-PRD-007（統一的 List Workbench 佈局）與 FE-SR-090~092 的詳細技術規範（§4.3, §4.4），並與 `openspec/specs/list-workbench-components/spec.md` 建立追溯關係。
 
 3. **Confirm BE‑PRD / BE‑SR mappings per UR**
    - From `docs/requirements/03_BACKEND_PRD_SR_SD.md`:
@@ -42,12 +44,12 @@ extensions: {}
    - Capture the decision in a follow‑up OpenSpec change if we move it into a spec.
 
 6. **(Optional) Extend traceability to NFR and test artefacts**
-   - If needed for IEC 62304:
+   - [x] (Skipped - Defer to future quality assurance change)
      - Introduce mappings from SYS‑SR‑NFR‑001 – 005 to FE‑SR / BE‑SR‑NFR and test plans.
      - Plan separate OpenSpec changes for test‑spec traceability (e.g., SYS‑SR → test cases).
 
 7. **Validate with OpenSpec tooling (when project is initialized)**
-   - Once `openspec init` / `openspec project.md` is available:
+   - [x] Once `openspec init` / `openspec project.md` is available:
      - Run `openspec validate align-phase1-specs-traceability --strict`.
      - Resolve any structural or metadata issues reported by the tool (filenames, front‑matter, etc.).
 

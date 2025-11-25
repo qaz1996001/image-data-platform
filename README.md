@@ -20,11 +20,15 @@
 
 ### Phase 1 核心功能
 
-- **📂 數據導入**：支援Excel/CSV批量導入醫學報告
-- **🔍 智慧檢索**：PostgreSQL全文搜尋，支援複雜條件篩選
-- **🤖 AI分析**：本地LLM（Ollama）進行報告標註、分類、提取和評分
-- **📊 項目管理**：多項目管理，靈活組織和分類報告
-- **📥 數據導出**：支援Excel/CSV導出帶AI分析結果
+**✅ 已實現**：
+- **🔍 智慧檢索**：PostgreSQL全文搜尋，12個篩選條件（超越規格）
+- **📊 項目管理**：多項目管理，4角色權限系統（超越規格）
+- **📥 數據導出**：支援Excel/CSV導出完整報告資料
+- **🔐 認證系統**：JWT 登入/登出/驗證
+
+**⚠️ 開發中**：
+- **📂 數據導入**：Management commands 已實現，API 端點開發中
+- **🤖 AI分析**：前端界面已完成，後端 Ollama 整合開發中（預計3週）
 
 ## 技術棧
 
@@ -36,15 +40,16 @@
 - Vite (構建工具)
 
 ### 後端
-- Python 3.11 + FastAPI
+- **Python 3.11 + Django 4.2 + Django Ninja** (FastAPI-style framework for Django)
 - PostgreSQL 14+ (主數據庫，全文搜尋)
-- SQLAlchemy + Alembic (ORM和數據庫遷移)
-- Pydantic (數據驗證)
+- Django ORM + Migrations (數據庫管理)
+- Pydantic 2.5+ (數據驗證，schema定義)
 
-### AI引擎
-- **Ollama** (本地LLM服務)
-- **qwen2.5:7b** (推薦模型，7B參數，4.4GB)
-- httpx (非同步HTTP客戶端)
+### AI引擎 ⚠️ 規劃中
+- **Ollama** (本地LLM服務) - 規劃中，未實現
+- **qwen2.5:7b** (推薦模型，7B參數，4.4GB) - 規劃中
+- httpx (非同步HTTP客戶端) - 規劃中
+- **註**：AI 分析功能前端已完成，後端開發中
 
 ### 部署
 - Docker + Docker Compose

@@ -12,6 +12,18 @@ extensions: {}
 
 為 UR‑007（專案管理）補齊 **RBAC 權限暴露** 與 **批次指派流程** 的詳規：Django Projects API 需回傳角色資訊並強制批次操作上限/錯誤回饋；前端需依角色限制顯示操作、將 selection cart 透過共用服務批次指派/移除，並以 E2E 覆蓋成功與 403 案例。
 
+## Why
+
+- Phase 1 的 Projects 功能雖然已有基本 CRUD 與 RBAC，但 API 回傳缺乏明確的角色與可用操作欄位，前端無法可靠地依權限關閉或隱藏危險操作。
+- Study Search 與 Projects 目前各自實作批次指派流程，對「500 筆上限」「部分失敗」「權限不足」等情境缺少統一約定，容易在 UI 與 API 之間產生不一致行為。
+- 若沒有標準化的批次回應格式與自動化測試覆蓋，交付核心工作流時需要大量人工驗證 RBAC 與批次錯誤處理，風險過高。
+
+## What Changes
+
+- 新增 `projects-rbac-batch` spec，定義 Projects API 必須回傳的 `user_role` 與布林權限欄位（如 `can_assign_studies`、`can_manage_members`、`can_archive`），以及批次指派/移除端點的輸入與回應合約（含 `max_batch_size=500`、`failed_items[]`、`requested_count` 等欄位）。
+- 後端 Django Projects 應用需依此 spec 擴充 serializer / service：從 `ProjectMember` 關係推導角色與權限、在 `POST /projects/{id}/studies` 中實作 500 筆上限與 `failed_items` 回傳、並針對 RBAC 權限不足回傳 403 與對應錯誤碼。
+- 前端需在 Projects / Study Search 中導入統一的 `ProjectRole` 型別與 `ProjectBatchService`，依 API 權限欄位 gating UI 按鈕行為，並使用批次回應中的 `added_count` / `skipped_count` / `failed_items[]` 呈現成功與錯誤細節，同時以 Vitest + Playwright e2e 覆蓋成功與 403 案例。
+
 ## Motivation
 
 - 後端 `projects` app 雖已提供 CRUD/RBAC，但現行 API 回應未帶 `role`，前端無法根據權限決定是否可刪除/封存/批次指派。

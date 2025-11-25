@@ -1,7 +1,14 @@
 # list-workbench-components Specification
 
 ## Purpose
-TBD - created by archiving change standardize-phase1-list-ux. Update Purpose after archive.
+定義統一的 List Workbench 組件庫，提供可重複使用的 React 組件與樣式 token，供所有列表頁面（Reports、Study Search、Projects 等）使用。確保前端列表介面的一致性、可維護性與使用者體驗的統一性。
+
+本規格對應前端需求文件 `docs/requirements/02_FRONTEND_PRD_SR_SD.md` 的 FE-PRD-007、FE-SR-090、FE-SR-091、FE-SR-092，以及系統需求 SYS-PRD-004、SYS-SR-003、SYS-SR-008。
+
+**實作狀態：✅ 已完成**
+- 所有組件已實作於 `frontend/src/components/ListWorkbench/`
+- 已在 5 個頁面成功導入並驗證
+- 包含完整的 TypeScript 型別定義與 CSS token 系統
 ## Requirements
 ### Requirement: ListWorkbench Component Exports
 ListWorkbench shell MUST 暴露一組可供三個頁面共用的 React 組件與型別，以避免各頁重複建構容器。
@@ -37,4 +44,31 @@ ListWorkbench shell MUST 提供共用 `SelectionDrawer` 組件與 TypeScript 型
 #### Scenario: Study Search 與 Reports 導入共用 Drawer
 - Study Search MUST 利用共用 Drawer 取代現行 `Selected List` 實作，保持欄位（Exam ID、Exam Item、Status 等）透過 `renderItem` 自行定義；Drawer 入口與 badge SHALL 與 Reports 共享樣式。
 - Reports MUST 移除專屬的 `ReportSelectionDrawer`，改用共用組件並透過 `renderItem` 呈現報告資訊（標題、UID、標籤）。任何批次行為按鈕（匯出/列印/歸檔/刪除） SHALL 傳入 `primaryActions` 或 Drawer 內 action group slot。
+
+### Requirement: Column Settings Management
+ListWorkbench shell SHOULD 提供共用 `ColumnSettingsDrawer` 組件，供列表頁面統一管理欄位的顯示、隱藏與排序。
+
+#### Scenario: 列表頁需要欄位設定功能
+- `@components/ListWorkbench` SHALL 匯出 `ColumnSettingsDrawer`，props 至少包含：
+  - `open: boolean`
+  - `columnConfig: ColumnConfig[]`
+  - `onClose: () => void`
+  - `onVisibilityChange: (key: string, visible: boolean) => void`
+  - `onDragStart: (key: string) => void`
+  - `onDragOver: (e: React.DragEvent) => void`
+  - `onDrop: (targetKey: string) => void`
+  - `onReset: () => void`
+  - `draggedItem: string | null`
+  - `title?: string`（預設「欄位設定」）
+  - `description?: string`
+  - `lockKeys?: string[]`（預設 `['action']`）
+- 欄位項目 MUST 支援拖曳排序，除非該欄位在 `lockKeys` 中。
+- 每個欄位 MUST 提供 Switch 切換以控制顯示/隱藏。
+- Drawer MUST 提供「重置」按鈕以恢復預設配置。
+- 鎖定的欄位（如操作欄）MUST 顯示但不可拖曳或關閉。
+
+#### Scenario: Study Search、Reports、Projects 使用統一的欄位管理
+- Study Search、Reports、Projects 列表頁 SHOULD 使用 `ColumnSettingsDrawer` 而非自建欄位設定 UI。
+- 各頁面透過 `useColumnManager` hook 管理欄位狀態，並將狀態傳遞給 `ColumnSettingsDrawer`。
+- 欄位配置 SHOULD 持久化至 localStorage 或等效儲存，以維持使用者偏好。
 
