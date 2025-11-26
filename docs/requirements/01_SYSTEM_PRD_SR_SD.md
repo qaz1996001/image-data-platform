@@ -213,21 +213,33 @@
 
 ## 6. 需求追溯矩陣（UR → SYS-SR → FE/BE）
 
-> 詳細 FE / BE 映射將在各自文件中展開，這裡先提供系統層總表，以滿足 ISO 29148 與 IEC 62304 對「需求追溯」的要求。
+> **規範矩陣：** 本章提供系統層追蹤總表。詳細的 **UR 中心追蹤矩陣**（含完整 FE/BE 映射）已移至 OpenSpec 規範：[`openspec/changes/align-phase1-specs-traceability/specs/traceability/spec.md`](../../openspec/changes/align-phase1-specs-traceability/specs/traceability/spec.md)。該規範文件為**權威參考**，並隨後續 OpenSpec 變更持續更新。下表僅作簡明摘要。
+
+### 6.1 簡表摘要（詳細請參考規範矩陣）
 
 | 使用者需求 (UR) | 系統產品需求 (SYS-PRD) | 系統需求 (SYS-SR) | 前端需求文件 | 後端需求文件 |
 |-----------------|-------------------------|--------------------|--------------|--------------|
-| UR-001 登入 | SYS-PRD-004 | SYS-SR-001 | `02_FRONTEND_PRD_SR_SD.md` FE-SR-001 | `03_BACKEND_PRD_SR_SD.md` BE-SR-001 |
-| UR-002 匯入 | SYS-PRD-002 | SYS-SR-002 | FE-SR-010 | BE-SR-010 |
-| UR-003 搜尋 | SYS-PRD-002 | SYS-SR-003 | FE-SR-010, FE-SR-011 | BE-SR-020 |
-| UR-004 詳情 | SYS-PRD-001 | SYS-SR-004 | FE-SR-020, FE-SR-030 | BE-SR-021, BE-SR-030 |
-| UR-005 AI 分析 | SYS-PRD-001 | SYS-SR-005, 006 | FE-SR-040 | BE-SR-040 |
-| UR-006 標記管理 | SYS-PRD-001 | SYS-SR-007 | FE-SR-050 | BE-SR-050 |
-| UR-007 專案管理 | SYS-PRD-003 | SYS-SR-008 | FE-SR-050, FE-SR-051 | BE-SR-050, BE-SR-051 |
-| UR-008 導出 | SYS-PRD-003 | SYS-SR-009 | FE-SR-060 | BE-SR-060, BE-SR-061 |
-| UR-009 UI/UX | SYS-PRD-004 | SYS-SR-010 | FE-SR-080, FE-SR-090~092 | BE：僅間接（效能/錯誤處理） |
+| UR-001 登入 | SYS-PRD-004 | SYS-SR-001 | `02_FRONTEND_PRD_SR_SD.md` FE-SR-001~002 | `03_BACKEND_PRD_SR_SD.md` BE-SR-001~002 |
+| UR-002 匯入 | SYS-PRD-002 | SYS-SR-002 | FE-SR-010 | BE-SR-010~011 |
+| UR-003 搜尋 | SYS-PRD-002 | SYS-SR-003 | FE-SR-010~011 | BE-SR-020 |
+| UR-004 詳情 | SYS-PRD-001 | SYS-SR-004 | FE-SR-020, FE-SR-030 | BE-SR-021, BE-SR-030~031 |
+| UR-005 AI 分析 | SYS-PRD-001 | SYS-SR-005~006 | FE-SR-040 | BE-SR-040~041 |
+| UR-006 標記管理 | SYS-PRD-001 | SYS-SR-007 | FE-SR-030, FE-SR-040~041 | BE-SR-030~031, BE-SR-040~041 |
+| UR-007 專案管理 | SYS-PRD-003 | SYS-SR-008 | FE-SR-050~051 | BE-SR-050~051 |
+| UR-008 導出 | SYS-PRD-003 | SYS-SR-009 | FE-SR-060 | BE-SR-060~061 |
+| UR-009 UI/UX | SYS-PRD-004 | SYS-SR-010 + SYS-SR-NFR-001,004,005 | FE-SR-080, FE-SR-090~092 | BE-SR-NFR-001~005（效能/穩定性） |
 
-> 註：FE-SR-xxx / BE-SR-xxx 僅為預留 ID，實際內容與鏈結將在 `02_FRONTEND_PRD_SR_SD.md` 與 `03_BACKEND_PRD_SR_SD.md` 中正式定義。
+### 6.2 追蹤矩陣維護說明
+
+- **權威來源**：[`openspec/changes/align-phase1-specs-traceability/specs/traceability/spec.md`](../../openspec/changes/align-phase1-specs-traceability/specs/traceability/spec.md)
+  - 包含完整的 UR ↔ SYS ↔ FE ↔ BE 映射
+  - 解決了舊版本中的佔位符 ID 問題
+  - 隨後續需求變更持續更新
+
+- **更新流程**：
+  1. 若 FE/BE-SR 映射有變動，先在各自文件中更新
+  2. 再同步至 OpenSpec 規範矩陣
+  3. 最後更新此摘要表
 
 ---
 

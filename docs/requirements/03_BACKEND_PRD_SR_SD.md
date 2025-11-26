@@ -212,13 +212,24 @@
 
 ## 5. 前端 / 後端 / 系統層追溯表（摘錄）
 
+> **⭐ 權威參考**：完整的 **UR 中心追蹤矩陣**（涵蓋使用者需求、系統層、前端、後端的完整映射）請參考：  
+> [`openspec/changes/align-phase1-specs-traceability/specs/traceability/spec.md`](../openspec/changes/align-phase1-specs-traceability/specs/traceability/spec.md)  
+> 該規範文件為 OpenSpec 維護的權威索引，解決了舊版本中的佔位符 ID 問題，並隨需求變更持續更新。
+
+### 5.1 按系統層 SR 的追溯表摘要
+
 | 系統層 | 前端層 | 後端層 |
 |--------|--------|--------|
-| SYS-PRD-001 / SYS-SR-005, 006, 007 | FE-PRD-003, 004 / FE-SR-020, 030, 040, 041 | BE-PRD-004 / BE-SR-030, 031, 040, 041 |
-| SYS-PRD-002 / SYS-SR-002, 003, 004 | FE-PRD-002 / FE-SR-010, 011, 020 | BE-PRD-002, 003 / BE-SR-010, 011, 020, 021 |
-| SYS-PRD-003 / SYS-SR-008, 009 | FE-PRD-005 / FE-SR-050, 051, 060 | BE-PRD-005 / BE-SR-050, 051, 060, 061 |
-| SYS-PRD-004 / SYS-SR-001, 010 | FE-PRD-001, 006 / FE-SR-001, 002, 080 | BE-PRD-001 / BE-SR-001, 002, BE-SR-NFR-004 |
-| SYS-PRD-005 / SYS-SR-NFR-004 | - | BE-PRD-001 / BE-SR-NFR-004 |
+| SYS-PRD-001 / SYS-SR-004, 005, 006, 007 | FE-PRD-003, 004 / FE-SR-020, 030, 040, 041 | BE-PRD-003, 004 / BE-SR-021, 030~031, 040~041 |
+| SYS-PRD-002 / SYS-SR-002, 003 | FE-PRD-002 / FE-SR-010~011 | BE-PRD-002, 003 / BE-SR-010~011, 020 |
+| SYS-PRD-003 / SYS-SR-008, 009 | FE-PRD-005 / FE-SR-050~051, 060 | BE-PRD-005 / BE-SR-050~051, 060~061 |
+| SYS-PRD-004 / SYS-SR-001, 010 + NFR-001, 004, 005 | FE-PRD-001, 006, 007 / FE-SR-001~002, 080, 090~092 | BE-PRD-001 / BE-SR-001~002, BE-SR-NFR-001~005 |
+
+### 5.2 追蹤維護流程
+
+- 本表反映系統層級的映射；詳細的 **UR → SYS → FE → BE** 映射請參考上述規範矩陣。
+- 若 BE-SR 或 FE-SR ID 有變動，需同時更新規範矩陣以保持一致。
+- 規範矩陣隨著後續 OpenSpec 變更（如 `implement-advanced-report-search` 等）持續演進。
 
 ---
 

@@ -420,16 +420,27 @@ frontend/src/components/ListWorkbench/
 ## 6. 前端與後端 / 系統層追溯表
 
 > 本節將 FE-PRD / FE-SR 與系統層以及後端層的需求 ID 做鏈結，方便在 IEC 62304 下進行軟體項目與單元的追溯。
+>
+> **⭐ 權威參考**：完整的 **UR 中心追蹤矩陣**（包含前端、後端、系統層的完整映射）請參考：  
+> [`openspec/changes/align-phase1-specs-traceability/specs/traceability/spec.md`](../openspec/changes/align-phase1-specs-traceability/specs/traceability/spec.md)  
+> 該規範文件為 OpenSpec 維護的權威索引，隨需求變更持續更新。
+
+### 6.1 簡表摘要
 
 | FE-PRD | FE-SR | 對應 SYS-PRD / SYS-SR | 對應 Backend PRD / SR |
 |--------|-------|-----------------------|------------------------|
-| FE-PRD-001 | FE-SR-001, 002 | SYS-PRD-004 / SYS-SR-001 | BE-PRD-001 / BE-SR-001（auth 模組） |
-| FE-PRD-002 | FE-SR-010, 011 | SYS-PRD-002 / SYS-SR-003 | BE-PRD-002 / BE-SR-020（reports/search） |
-| FE-PRD-003 | FE-SR-020, 030 | SYS-PRD-001 / SYS-SR-004, 007 | BE-PRD-003 / BE-SR-030, 050 |
-| FE-PRD-004 | FE-SR-040, 041 | SYS-PRD-001 / SYS-SR-005, 006 | BE-PRD-004 / BE-SR-040（AI API） |
-| FE-PRD-005 | FE-SR-050, 051, 060 | SYS-PRD-003 / SYS-SR-008, 009 | BE-PRD-005 / BE-SR-060, 070 |
-| FE-PRD-006 | FE-SR-080 | SYS-PRD-004 / SYS-SR-010, NFR-004 | 與後端無直接對應（僅間接透過效能） |
-| FE-PRD-007 統一的 List Workbench 佈局 | FE-SR-090, FE-SR-091, FE-SR-092 | SYS-PRD-003, SYS-PRD-004 / SYS-SR-003, SYS-SR-008, SYS-SR-010 | 前端 UI 層一致性，與後端 API 無直接對應 |
+| FE-PRD-001 | FE-SR-001, 002 | SYS-PRD-004 / SYS-SR-001 | BE-PRD-001 / BE-SR-001~002 |
+| FE-PRD-002 | FE-SR-010, 011 | SYS-PRD-002 / SYS-SR-002, 003 | BE-PRD-002, BE-PRD-003 / BE-SR-010~011, BE-SR-020 |
+| FE-PRD-003 | FE-SR-020, 030 | SYS-PRD-001 / SYS-SR-004, 007 | BE-PRD-003, BE-PRD-004 / BE-SR-021, BE-SR-030~031 |
+| FE-PRD-004 | FE-SR-040, 041 | SYS-PRD-001 / SYS-SR-005, 006 | BE-PRD-004 / BE-SR-040~041 |
+| FE-PRD-005 | FE-SR-050, 051, 060 | SYS-PRD-003 / SYS-SR-008, 009 | BE-PRD-005 / BE-SR-050~051, BE-SR-060~061 |
+| FE-PRD-006 | FE-SR-080 | SYS-PRD-004 / SYS-SR-010, NFR-004, 005 | 與後端無直接對應（效能/穩定性支撐） |
+| FE-PRD-007 統一的 List Workbench 佈局 | FE-SR-090~092 | SYS-PRD-003, SYS-PRD-004 / SYS-SR-003, SYS-SR-008, SYS-SR-010 | 前端 UI 層一致性，與後端 API 無直接對應 |
+
+### 6.2 追蹤維護
+
+- 本表反映 FE 層面的需求；詳細的系統級別映射請參考上述規範矩陣。
+- 若 FE-SR 或 BE-SR ID 有變動，需同時更新規範矩陣以保持一致。
 
 ---
 
