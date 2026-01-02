@@ -629,6 +629,7 @@ ALLOWED_HOSTS=localhost,127.0.0.1,*.supabase.co
 ```
 
 ### C. Docker Compose for Local Development
+
 ```yaml
 version: '3.8'
 services:
@@ -642,7 +643,7 @@ services:
       - "5432:5432"
 
   django:
-    build: ./backend_django
+    build: ../../backend_django
     environment:
       DATABASE_URL: postgresql://postgres:postgres@supabase-db:5432/postgres
     depends_on:
@@ -651,7 +652,7 @@ services:
       - "8000:8000"
 
   frontend:
-    build: ./frontend
+    build: ../../frontend
     ports:
       - "3000:3000"
     environment:
