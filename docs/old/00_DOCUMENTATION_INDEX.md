@@ -1,5 +1,13 @@
 # 影像数据平台文档索引
 
+> ⚠️ **DEPRECATED / 已廢止**  
+> 本文件已遷移至新的標準化文檔結構。  
+> 請改用: [`docs/image_data_platform/00_IMAGE_DATA_PLATFORM_INDEX.md`](../image_data_platform/00_IMAGE_DATA_PLATFORM_INDEX.md)  
+> 
+> **遷移原因**: 統一文檔管理,符合 IEC 62304 軟體生命週期標準  
+> **遷移日期**: 2025-12-26  
+> **本文件保留作為歷史參考**
+
 本文档索引提供了项目所有文档的完整导航。
 
 ## 📚 文档分类

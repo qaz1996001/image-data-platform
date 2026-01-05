@@ -1,5 +1,13 @@
 # 影像数据平台项目概述
 
+> ⚠️ **DEPRECATED / 已廢止**  
+> 本文件已遷移至新的標準化文檔結構。  
+> 請改用: [`docs/image_data_platform/guides/01_PROJECT_OVERVIEW_AND_WORKFLOW_GUIDE.md`](../image_data_platform/guides/01_PROJECT_OVERVIEW_AND_WORKFLOW_GUIDE.md)  
+> 
+> **遷移原因**: 統一專案指南管理,整合至 guides/ 目錄  
+> **遷移日期**: 2025-12-26  
+> **本文件保留作為歷史參考**
+
 **版本**: v2.0.0
 **最后更新**: 2024-12-01
 **状态**: Phase 1 开发中 - AI辅助报告筛选系统
