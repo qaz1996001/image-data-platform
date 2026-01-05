@@ -23,4 +23,6 @@ The system documentation SHALL maintain a canonical traceability matrix that map
 > **Notes**:
 > - Source of truth for mappings: `USER_REQUIREMENTS.md` (UR), `01_SYSTEM_PRD_SR_SD.md` (SYS), `02_FRONTEND_PRD_SR_SD.md` (FE), `03_BACKEND_PRD_SR_SD.md` (BE).
 > - FE/BE lists include primary requirements; see respective docs for full details.
+> - **合規性與追溯性管理**：本追溯矩陣符合 IEC 62304 §5.2.6 與 §8.1.3 的要求。詳細的追溯性管理指南請參閱 [`docs/regulations/IEC-62304/traceability-matrix.md`](../../../../docs/regulations/IEC-62304/traceability-matrix.md)（待建立）。
+> - **規範文件索引**：所有標準合規性文件位於 [`docs/regulations/`](../../../../docs/regulations/) 目錄，詳見 [`docs/regulations/00_REGULATIONS_INDEX.md`](../../../../docs/regulations/00_REGULATIONS_INDEX.md)。
 
