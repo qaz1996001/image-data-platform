@@ -46,7 +46,7 @@ ListWorkbench shell MUST 提供共用 `SelectionDrawer` 組件與 TypeScript 型
 - Reports MUST 移除專屬的 `ReportSelectionDrawer`，改用共用組件並透過 `renderItem` 呈現報告資訊（標題、UID、標籤）。任何批次行為按鈕（匯出/列印/歸檔/刪除） SHALL 傳入 `primaryActions` 或 Drawer 內 action group slot。
 
 ### Requirement: Column Settings Management
-ListWorkbench shell SHOULD 提供共用 `ColumnSettingsDrawer` 組件，供列表頁面統一管理欄位的顯示、隱藏與排序。
+ListWorkbench shell MUST 提供共用 `ColumnSettingsDrawer` 組件，供列表頁面統一管理欄位的顯示、隱藏與排序。
 
 #### Scenario: 列表頁需要欄位設定功能
 - `@components/ListWorkbench` SHALL 匯出 `ColumnSettingsDrawer`，props 至少包含：

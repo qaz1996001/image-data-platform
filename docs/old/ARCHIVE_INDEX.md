@@ -1,5 +1,13 @@
 # Development Artifacts Archive Index
 
+> ⚠️ **DEPRECATED / 已廢止**  
+> 本歸檔索引已整合至新的文檔管理系統。  
+> 請改用: [`docs/image_data_platform/00_IMAGE_DATA_PLATFORM_INDEX.md`](../image_data_platform/00_IMAGE_DATA_PLATFORM_INDEX.md)  
+> 
+> **遷移原因**: 統一歸檔與索引管理  
+> **遷移日期**: 2025-12-26  
+> **本文件保留作為歷史參考**
+
 **Version**: v2.0.0  
 **Last Updated**: 2025-11-07  
 **Purpose**: Centralized index of all development documentation and artifacts

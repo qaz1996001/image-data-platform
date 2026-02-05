@@ -35,15 +35,26 @@
 - Reports Drawer 內的批次行為（匯出、列印、歸檔、刪除） SHALL 由 Drawer 內容呈現，並同步顯示 `已選 X 筆` badge，以與 Study Search 一致。
 
 ### Requirement: 批次選擇與匯出入口
-批次操作（包含選取、匯出、欄位設定、更多動作）MUST 集中在 ResultsCard 的統一入口與 Selection Drawer，避免每頁重新發明互動模式。
+Study Search 的「全選全部」行為 MUST 允許透過設定值控制一次抓取與選取的最大筆數，預設 9,999。
 
-#### Scenario: 使用者在列表中進行批次行為
-- 三頁面皆 MUST 於 `ResultsCard.actions` slot 中呈現「批次入口群組」，此群組 SHALL 僅提供 `欄位設定` 按鈕與 `Selected Drawer` 觸發按鈕；觸發後 Drawer 內 MUST 顯示 selection indicator（`已選 X 筆`）與批次行為按鈕。
-- Study Search 的 Selection Drawer、Projects 的匯出與 CRUD、Reports 的匯出/列印/歸檔/刪除都 MUST 由 Drawer 觸發，並同步 `ListViewStore` selection 狀態，以確保 badge 數字即時更新。
-- 若某頁面暫不提供批次行為（例如 Reports 在初期），Drawer SHALL 顯示 disabled 状態按鈕搭配 Tooltip「功能即將推出」以維持一致佈局。
-- 匯出行為 MUST 共用 `ExportFileDialog`（或其抽象層），呼叫方式相同且在下載完成後以 `message.success` 告知；列印/歸檔/刪除等按鈕也 MUST 由 Drawer 內的 action group 線性排列或使用 `Space wrap` 方式顯示。
+#### Scenario: 使用者在 Study Search 點擊「全選全部」且總筆數 <= 上限
+- 給定 `STUDY_SEARCH_FULL_SELECT_CAP = 9,999`
+- 且當前查詢的總筆數 `total = 5,485`
+- 當使用者點擊 ResultsCard summary 旁的「全選全部」按鈕
+- 則前端 MUST 以 `page_size = min(total, cap)` 呼叫後端並成功選取所有 5,485 筆
+- 並顯示成功提示「已選取全部 5,485 筆」
 
-#### Scenario: Reports 批次行為搬移至 Drawer
-- Reports 頁面在 `list-workbench-actions-area` 不得再直接顯示 `DownloadOutlined`、`PrinterOutlined`、`InboxOutlined`、`DeleteOutlined` 等批次按鈕；改由 Drawer header 的 ActionGroup 呈現。
-- Drawer 內 MUST 包含清除全部、移除單筆、加入專案/匯出/列印/歸檔/刪除等按鈕，並允許依照 `reportBatchActionsRegistry` 依序渲染；所有行為執行後 SHALL 自動同步 Table selection 狀態並更新 badge。
+#### Scenario: 總筆數超過上限
+- 給定 `cap = 9,999`
+- 且 `total = 25,000`
+- 當使用者點擊「全選全部」
+- 則系統 MUST 只抓取並選取 cap 筆資料（9,999）
+- 並顯示警示訊息「已選取 9,999 筆，上限已達；請縮小篩選」
+- 按鈕文案 MUST 仍提供「取消全選」以清除這 9,999 筆
+
+#### Scenario: 管理者需要調整上限
+- 給定 build-time 或 runtime 可覆寫 `STUDY_SEARCH_FULL_SELECT_CAP`
+- 當設定為 `cap = 2,000`
+- 則 summary 按鈕文案 MUST 改為「全選全部 (最多 2,000 筆)」
+- 所有上述成功與超出上限行為 MUST 以新 cap 值為準
 
